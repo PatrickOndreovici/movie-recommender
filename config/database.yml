@@ -1,0 +1,26 @@
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: myapp_development
+  pool: 5
+  username: postgres
+  password: Patrick242004
+
+test:
+  adapter: postgresql
+  encoding: unicode
+  database: myapp_test
+  pool: 5
+  username: postgres
+  password: Patrick242004
+
+production:
+  adapter: postgresql
+  encoding: unicode
+  database: myapp_production
+  pool: 5
+  username: postgres
+  password: Patrick242004
+
+
+
