@@ -53,12 +53,9 @@
           <% end %>
         </div>
         <div class="movie-card-actions">
-          <% liked = @liked_movie_ids.include?(movie.id) %>
-          <% if liked %>
-            <%= button_to "Liked", movie_like_path(movie), method: :delete, class: "btn-like liked", title: "Unlike" %>
-          <% else %>
-            <%= button_to "Like", movie_like_path(movie), method: :post, class: "btn-like", title: "Like" %>
-          <% end %>
+          <turbo-frame id="like-button-<%= movie.id %>">
+            <%= render "movies/likes/like_button", movie: movie %>
+          </turbo-frame>
         </div>
       </div>
     <% end %>

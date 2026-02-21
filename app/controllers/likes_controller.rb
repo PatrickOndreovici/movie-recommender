@@ -3,12 +3,12 @@ class LikesController < ApplicationController
 
   def create
     current_user.likes.find_or_create_by!(movie: @movie)
-    redirect_back fallback_location: movies_path, notice: "Liked!"
+    render partial: "movies/likes/like_button", locals: { movie: @movie }
   end
 
   def destroy
     current_user.likes.find_by(movie: @movie)&.destroy
-    redirect_back fallback_location: movies_path, notice: "Unliked."
+    render partial: "movies/likes/like_button", locals: { movie: @movie }
   end
 
   private

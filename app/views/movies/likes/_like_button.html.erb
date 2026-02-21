@@ -1,0 +1,17 @@
+<turbo-frame id="like-button-<%= movie.id %>">
+  <% liked = current_user.likes.exists?(movie: movie) %>
+
+  <% if liked %>
+    <%= button_to "Liked",
+        movie_like_path(movie),
+        method: :delete,
+        class: "btn-like liked",
+        title: "Unlike" %>
+  <% else %>
+    <%= button_to "Like",
+        movie_like_path(movie),
+        method: :post,
+        class: "btn-like",
+        title: "Like" %>
+  <% end %>
+</turbo-frame>
