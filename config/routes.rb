@@ -15,9 +15,11 @@ Rails.application.routes.draw do
   root "movies#index"
   get "movies", to: "movies#index"
 
-  resources :movies, only: [] do
+  resources :movies, only: [:show] do
     resource :like, only: [:create, :destroy], controller: "likes"
     get :liked, on: :collection
     get :recommended, on: :collection
   end
+
+  resources :videos, only: [:new, :create]
 end

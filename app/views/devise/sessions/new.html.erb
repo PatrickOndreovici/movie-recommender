@@ -1,26 +1,36 @@
-<h2>Log in</h2>
-
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <p><%= f.label :email %></p>
-    <p><%= f.email_field :email, autofocus: true, autocomplete: "email" %></p>
-  </div>
-
-  <div class="field">
-    <p><%= f.label :password %></p>
-    <p><%= f.password_field :password, autocomplete: "current-password" %></p>
-  </div>
-
-  <% if devise_mapping.rememberable? %>
-    <div class="field">
-      <p><%= f.check_box :remember_me %></p>
-      <p><%= f.label :remember_me %></p>
+<div class="flex flex-col items-center font-sans py-12">
+  <div class="w-full max-w-sm bg-neutral-900 border border-neutral-800 rounded-2xl p-8 shadow-2xl">
+    
+    <div class="mb-8 font-light text-center">
+      <h2 class="text-2xl text-white tracking-tight mb-2">Welcome back</h2>
+      <p class="text-neutral-500 text-sm">Please enter your details to sign in.</p>
     </div>
-  <% end %>
 
-  <div class="actions">
-    <%= f.submit "Log in" %>
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "space-y-5" }) do |f| %>
+      <div class="space-y-1.5">
+        <%= f.label :email, class: "block text-sm font-medium text-neutral-400" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "w-full bg-neutral-950 border border-neutral-800 rounded-lg px-4 py-2 text-neutral-200 placeholder-neutral-600 focus:outline-none focus:border-neutral-600 focus:ring-1 focus:ring-neutral-600 transition-colors duration-200" %>
+      </div>
+
+      <div class="space-y-1.5">
+        <%= f.label :password, class: "block text-sm font-medium text-neutral-400" %>
+        <%= f.password_field :password, autocomplete: "current-password", class: "w-full bg-neutral-950 border border-neutral-800 rounded-lg px-4 py-2 text-neutral-200 placeholder-neutral-600 focus:outline-none focus:border-neutral-600 focus:ring-1 focus:ring-neutral-600 transition-colors duration-200" %>
+      </div>
+
+      <% if devise_mapping.rememberable? %>
+        <div class="flex items-center gap-2">
+          <%= f.check_box :remember_me, class: "rounded bg-neutral-950 border-neutral-800 text-neutral-200 focus:ring-neutral-600 focus:ring-offset-neutral-900" %>
+          <%= f.label :remember_me, class: "text-sm text-neutral-400" %>
+        </div>
+      <% end %>
+
+      <div class="pt-2">
+        <%= f.submit "Log in", class: "w-full bg-white text-neutral-950 font-medium py-2.5 px-4 rounded-lg hover:bg-neutral-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-neutral-900 focus:ring-white transition-all active:scale-[0.98] cursor-pointer" %>
+      </div>
+    <% end %>
+
+    <div class="mt-6 text-center text-sm text-neutral-400">
+      <%= render "devise/shared/links" %>
+    </div>
   </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</div>

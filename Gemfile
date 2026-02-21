@@ -83,3 +83,5 @@ gem "pgvector"
 gem "neighbor"
 
 
+
+gem "tailwindcss-rails", "~> 4.4"

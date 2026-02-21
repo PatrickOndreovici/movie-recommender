@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html class="h-full bg-neutral-950">
   <head>
     <title><%= content_for(:title) || "Movie Recommender" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -23,7 +23,11 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <%= yield %>
+  <body class="bg-neutral-950 text-neutral-200 antialiased h-full">
+    <main class="container mx-auto mt-28 px-5 flex flex-col items-center">
+      <div class="w-full max-w-5xl">
+        <%= yield %>
+      </div>
+    </main>
   </body>
 </html>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_07_160536) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_21_235600) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -42,9 +42,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_07_160536) do
     t.index ["movie_id"], name: "index_movie_genres_on_movie_id"
   end
 
-# Could not dump table "movies" because of following StandardError
-#   Unknown type 'vector(384)' for column 'embedding_vec'
-
+  create_table "movies", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.text "embedding"
+    t.vector "embedding_vec", limit: 384
+    t.string "poster_path"
+    t.string "title"
+    t.datetime "updated_at", null: false
+    t.integer "year"
+  end
 
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -60,8 +67,23 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_07_160536) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "videos", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "duration"
+    t.string "hls_prefix"
+    t.bigint "movie_id", null: false
+    t.string "original_key"
+    t.string "status", default: "uploading", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["movie_id"], name: "index_videos_on_movie_id"
+    t.index ["user_id"], name: "index_videos_on_user_id"
+  end
+
   add_foreign_key "likes", "movies"
   add_foreign_key "likes", "users"
   add_foreign_key "movie_genres", "genres"
   add_foreign_key "movie_genres", "movies"
+  add_foreign_key "videos", "movies"
+  add_foreign_key "videos", "users"
 end

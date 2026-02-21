@@ -1,0 +1,77 @@
+<div class="w-full flex items-center justify-center text-neutral-200 font-sans">
+  <div class="w-full max-w-lg bg-neutral-900 border border-neutral-800 rounded-2xl p-8 shadow-2xl">
+    
+    <div class="mb-8 font-light">
+      <h1 class="text-2xl text-white tracking-tight mb-2">Upload Movie</h1>
+      <p class="text-neutral-500 text-sm">Add a new video to the platform repository.</p>
+    </div>
+
+    <%= form_with url: videos_path, local: true, class: "space-y-6" do |f| %>
+      
+      <div class="space-y-1.5">
+        <%= f.label :title, "Movie Title", class: "block text-sm font-medium text-neutral-400" %>
+        <%= f.text_field :title, 
+            required: true, 
+            class: "w-full bg-neutral-950 border border-neutral-800 rounded-lg px-4 py-2.5 text-neutral-200 placeholder-neutral-600 focus:outline-none focus:border-neutral-600 focus:ring-1 focus:ring-neutral-600 transition-colors duration-200", 
+            placeholder: "e.g. Blade Runner 2049" %>
+      </div>
+
+      <div class="space-y-1.5">
+        <%= f.label :description, "Synopsis", class: "block text-sm font-medium text-neutral-400" %>
+        <%= f.text_area :description, 
+            required: true, 
+            rows: 3,
+            class: "w-full bg-neutral-950 border border-neutral-800 rounded-lg px-4 py-2.5 text-neutral-200 placeholder-neutral-600 focus:outline-none focus:border-neutral-600 focus:ring-1 focus:ring-neutral-600 transition-colors duration-200 resize-y", 
+            placeholder: "Enter an engaging description..." %>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div class="space-y-1.5">
+          <%= f.label :genre, "Genre", class: "block text-sm font-medium text-neutral-400" %>
+          <%= f.text_field :genre, 
+              required: true, 
+              class: "w-full bg-neutral-950 border border-neutral-800 rounded-lg px-4 py-2.5 text-neutral-200 placeholder-neutral-600 focus:outline-none focus:border-neutral-600 focus:ring-1 focus:ring-neutral-600 transition-colors duration-200", 
+              placeholder: "Sci-Fi" %>
+        </div>
+
+        <div class="space-y-1.5">
+          <%= f.label :year, "Release Year", class: "block text-sm font-medium text-neutral-400" %>
+          <%= f.number_field :year, 
+              required: true, 
+              class: "w-full bg-neutral-950 border border-neutral-800 rounded-lg px-4 py-2.5 text-neutral-200 placeholder-neutral-600 focus:outline-none focus:border-neutral-600 focus:ring-1 focus:ring-neutral-600 transition-colors duration-200", 
+              placeholder: "2017" %>
+        </div>
+      </div>
+
+      <div class="space-y-1.5 pt-2">
+        <%= f.label :video_file, "Video File", class: "block text-sm font-medium text-neutral-400" %>
+        
+        <div class="relative group cursor-pointer">
+          <div class="absolute inset-0 bg-neutral-800/20 group-hover:bg-neutral-800/40 border border-dashed border-neutral-700 bg-neutral-950 rounded-lg transition-colors duration-200"></div>
+          
+          <div class="relative px-6 py-8 text-center flex flex-col items-center justify-center space-y-2 pointer-events-none">
+            <svg class="w-8 h-8 text-neutral-500 group-hover:text-neutral-300 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+            </svg>
+            <div class="text-sm font-medium text-neutral-300 group-hover:text-white file-name-display">
+              Click to select a video file
+            </div>
+            <p class="text-xs text-neutral-500">MP4, WebM or OGG (Max. 2GB)</p>
+          </div>
+
+          <%= f.file_field :video_file, 
+              accept: "video/*", 
+              required: true, 
+              class: "absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10",
+              onchange: "document.querySelector('.file-name-display').textContent = this.files[0] ? this.files[0].name : 'Click to select a video file'" %>
+        </div>
+      </div>
+
+      <div class="pt-6">
+        <%= f.submit "Upload Movie", 
+            class: "w-full bg-white text-neutral-950 font-medium py-2.5 px-4 rounded-lg hover:bg-neutral-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-neutral-900 focus:ring-white transition-all active:scale-[0.98] cursor-pointer" %>
+      </div>
+
+    <% end %>
+  </div>
+</div>

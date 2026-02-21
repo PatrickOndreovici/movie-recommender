@@ -1,67 +1,105 @@
 <% content_for :title, "Movies" %>
 
-<style>
-  .movies-page { max-width: 960px; margin: 0 auto; padding: 2rem 1rem; font-family: system-ui, sans-serif; }
-  .movies-page h1 { margin-bottom: 1.5rem; font-size: 1.75rem; }
-  .movies-list { display: grid; gap: 1.5rem; }
-  .movie-card { display: flex; gap: 1.25rem; padding: 1rem; background: #f8f9fa; border-radius: 8px; }
-  .movie-card img { width: 120px; height: 180px; object-fit: cover; border-radius: 6px; background: #dee2e6; }
-  .movie-info { flex: 1; }
-  .movie-info h2 { margin: 0 0 0.25rem; font-size: 1.15rem; }
-  .movie-meta { color: #6c757d; font-size: 0.875rem; margin-bottom: 0.5rem; }
-  .movie-info p { margin: 0; font-size: 0.9rem; line-height: 1.4; color: #495057; }
-  .pagination { display: flex; gap: 0.25rem; flex-wrap: wrap; list-style: none; padding: 0; margin: 0; }
-  .pagination a, .pagination span { display: inline-block; padding: 0.5rem 0.75rem; border: 1px solid #dee2e6; border-radius: 4px; text-decoration: none; color: #0d6efd; }
-  .pagination a:hover { background: #e9ecef; }
-  .pagination .current { background: #0d6efd; color: #fff; border-color: #0d6efd; }
-  .pagination .disabled span { color: #adb5bd; cursor: not-allowed; }
-  .movie-card-actions { flex-shrink: 0; align-self: flex-start; }
-  .movie-card-actions form { display: inline-block; margin: 0; }
-  .btn-like {
-    display: inline-flex; align-items: center; justify-content: center;
-    padding: 0.4rem; min-width: 36px; min-height: 36px;
-    border: 1px solid #dee2e6; border-radius: 8px;
-    background: #fff; color: #495057; cursor: pointer;
-    transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
-    font-size: 0.875rem;
-  }
-  .btn-like:hover { border-color: #dc3545; background: #fff5f5; color: #dc3545; }
-  .btn-like.liked { border-color: #dc3545; background: #dc3545; color: #fff; }
-  .btn-like.liked:hover { background: #c82333; border-color: #c82333; color: #fff; }
-</style>
-
-<div class="movies-page">
+<div class="max-w-5xl mx-auto py-8 w-full text-neutral-200">
   <%= render "shared/navbar" %>
-  <h1>Movies</h1>
-  <p class="movie-meta" style="margin-bottom: 1rem;">Page <%= @movies.current_page %> of <%= @movies.total_pages %> (<%= @movies.total_entries %> movies).</p>
+  
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-white tracking-tight mb-2">
+      <%= action_name == 'liked' ? 'Liked Movies' : (action_name == 'recommended' ? 'Recommended Movies' : 'Movies') %>
+    </h1>
+    <p class="text-neutral-400 text-sm">Page <%= @movies.current_page %> of <%= @movies.total_pages %> (<%= @movies.total_entries %> movies).</p>
+  </div>
 
-  <div class="movies-list">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
     <% @movies.each do |movie| %>
-      <div class="movie-card">
-        <% if movie.poster_url.present? %>
-          <img src="<%= movie.poster_url %>" alt="<%= movie.title %>" onerror="this.src='https://placehold.co/120x180/1a1a1a/fff?text=No+Poster'; this.onerror=null;">
-        <% else %>
-          <img src="https://placehold.co/120x180/1a1a1a/fff?text=No+Poster" alt="<%= movie.title %>">
-        <% end %>
-        <div class="movie-info">
-          <h2><%= movie.title %></h2>
-          <div class="movie-meta">
-            <%= movie.year if movie.year %> · <%= movie.genres.pluck(:name).join(", ") %>
-          </div>
-          <% if movie.description.present? %>
-            <p><%= truncate(movie.description, length: 200) %></p>
+      <div class="flex flex-col sm:flex-row gap-5 p-5 bg-neutral-900 border border-neutral-800 rounded-xl hover:border-neutral-700 transition-colors shadow-lg">
+        <div class="flex-shrink-0 relative w-full sm:w-[120px] h-[300px] sm:h-[180px] bg-neutral-800 rounded-lg overflow-hidden group">
+          <%= link_to movie_path(movie), class: "block w-full h-full" do %>
+            <% if movie.poster_url.present? %>
+              <img src="<%= movie.poster_url %>" alt="<%= movie.title %>" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" onerror="this.src='https://placehold.co/120x180/1e293b/fff?text=No+Poster'; this.onerror=null;">
+            <% else %>
+              <img src="https://placehold.co/120x180/1e293b/fff?text=No+Poster" alt="<%= movie.title %>" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
+            <% end %>
           <% end %>
         </div>
-        <div class="movie-card-actions">
-          <turbo-frame id="like-button-<%= movie.id %>">
-            <%= render "movies/likes/like_button", movie: movie %>
-          </turbo-frame>
+        
+        <div class="flex-1 flex flex-col">
+          <h2 class="text-xl font-semibold text-white mb-1 leading-tight"><%= link_to movie.title, movie_path(movie), class: "hover:text-blue-400 transition-colors" %></h2>
+          <div class="text-sm text-neutral-400 mb-3 flex flex-wrap gap-2 items-center">
+            <% if movie.year %>
+              <span class="inline-block bg-neutral-800 px-2.5 py-1 rounded-md text-xs font-medium"><%= movie.year %></span>
+            <% end %>
+            <span><%= movie.genres.pluck(:name).join(", ") %></span>
+          </div>
+          
+          <div class="flex-1">
+            <% if movie.description.present? %>
+              <p class="text-sm text-neutral-300 leading-relaxed"><%= truncate(movie.description, length: 160) %></p>
+            <% end %>
+          </div>
+
+          <div class="mt-4 pt-4 border-t border-neutral-800/50 flex justify-end">
+            <turbo-frame id="like-button-<%= movie.id %>">
+              <%= render "movies/likes/like_button", movie: movie %>
+            </turbo-frame>
+          </div>
         </div>
       </div>
     <% end %>
   </div>
 
-  <div class="pagination-wrapper" style="margin-top: 2rem;">
-    <%= will_paginate @movies %>
+  <div class="mt-12 flex justify-center pagination-wrapper">
+    <%= will_paginate @movies, 
+        inner_window: 2, 
+        outer_window: 0,
+        class: "flex flex-wrap gap-2 text-sm",
+        previous_label: "&larr; Prev".html_safe,
+        next_label: "Next &rarr;".html_safe
+    %>
   </div>
 </div>
+
+<style>
+  /* Base Tailwind overrides for will_paginate HTML output */
+  .pagination-wrapper > div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .pagination-wrapper a, 
+  .pagination-wrapper span,
+  .pagination-wrapper em {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.5rem;
+    height: 2.5rem;
+    padding: 0 0.75rem;
+    border-radius: 0.5rem;
+    background-color: #171717; /* neutral-900 */
+    border: 1px solid #262626; /* neutral-800 */
+    color: #a3a3a3; /* neutral-400 */
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .pagination-wrapper a:hover {
+    background-color: #262626; /* neutral-800 */
+    color: #f5f5f5; /* neutral-100 */
+    border-color: #404040; /* neutral-700 */
+  }
+  .pagination-wrapper .current,
+  .pagination-wrapper em {
+    background-color: #f5f5f5; /* white-ish */
+    color: #0a0a0a; /* neutral-950 */
+    border-color: #f5f5f5;
+    font-weight: 600;
+  }
+  .pagination-wrapper .disabled,
+  .pagination-wrapper .disabled:hover {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: transparent;
+    border-color: transparent;
+    color: #525252; /* neutral-600 */
+  }
+</style>

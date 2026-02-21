@@ -1,5 +1,13 @@
-<div>
-    <%= link_to "Movies", movies_path %>
-    <%= link_to "Liked", liked_movies_path %>
-    <%= link_to "Recommended", recommended_movies_path %>
-</div>
+<nav class="flex items-center gap-6 pb-6 mb-8 border-b border-neutral-800">
+  <%= link_to "Movies", movies_path, class: "text-sm font-medium transition-colors hover:text-white #{current_page?(movies_path) || current_page?(root_path) ? 'text-white' : 'text-neutral-400'}" %>
+  <%= link_to "Liked", liked_movies_path, class: "text-sm font-medium transition-colors hover:text-white #{current_page?(liked_movies_path) ? 'text-white' : 'text-neutral-400'}" %>
+  <%= link_to "Recommended", recommended_movies_path, class: "text-sm font-medium transition-colors hover:text-white #{current_page?(recommended_movies_path) ? 'text-white' : 'text-neutral-400'}" %>
+  
+  <div class="flex-1"></div>
+  <div class="flex items-center gap-4">
+    <%= link_to "Upload Video", new_video_path, class: "text-sm font-medium bg-neutral-800 hover:bg-neutral-700 text-white px-4 py-2 rounded-lg transition-colors border border-neutral-700 hover:border-neutral-600" %>
+    <% if user_signed_in? %>
+      <%= button_to "Log out", destroy_user_session_path, method: :delete, class: "text-sm font-medium text-red-500 hover:text-red-400 bg-red-500/10 hover:bg-red-500/20 px-4 py-2 rounded-lg transition-colors border border-red-500/20 hover:border-red-500/30 cursor-pointer" %>
+    <% end %>
+  </div>
+</nav>
