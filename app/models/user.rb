@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   has_many :likes, dependent: :destroy
   has_many :liked_movies, through: :likes, source: :movie
+  has_many :reviews, dependent: :destroy
+  has_many :reviewed_movies, through: :reviews, source: :movie
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable

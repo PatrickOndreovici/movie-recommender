@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_21_235600) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_05_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -53,6 +53,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_21_235600) do
     t.integer "year"
   end
 
+  create_table "reviews", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "movie_id", null: false
+    t.integer "rating", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["movie_id"], name: "index_reviews_on_movie_id"
+    t.index ["user_id", "movie_id"], name: "index_reviews_on_user_id_and_movie_id", unique: true
+    t.index ["user_id"], name: "index_reviews_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "email"
@@ -84,6 +95,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_21_235600) do
   add_foreign_key "likes", "users"
   add_foreign_key "movie_genres", "genres"
   add_foreign_key "movie_genres", "movies"
+  add_foreign_key "reviews", "movies"
+  add_foreign_key "reviews", "users"
   add_foreign_key "videos", "movies"
   add_foreign_key "videos", "users"
 end

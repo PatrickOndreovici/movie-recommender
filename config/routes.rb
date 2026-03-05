@@ -17,6 +17,7 @@ Rails.application.routes.draw do
 
   resources :movies, only: [:show] do
     resource :like, only: [:create, :destroy], controller: "likes"
+    resource :review, only: [:create, :update], controller: "reviews"
     get :liked, on: :collection
     get :recommended, on: :collection
   end

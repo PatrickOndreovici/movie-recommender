@@ -51,6 +51,11 @@
           <% end %>
         </div>
 
+        <div class="mt-6 pt-6 border-t border-neutral-800">
+          <h3 class="text-lg font-medium text-white mb-3">Rate this movie</h3>
+          <%= render "movies/reviews/rating_widget", movie: @movie %>
+        </div>
+
         <div class="mt-10 pt-8 border-t border-neutral-800">
           <h3 class="text-lg font-medium text-white mb-4">Videos</h3>
           <div class="bg-neutral-950 border border-neutral-800 rounded-xl p-6 text-center">
