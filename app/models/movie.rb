@@ -1,6 +1,8 @@
 class Movie < ApplicationRecord
   TMDB_IMAGE_BASE = "https://image.tmdb.org/t/p/w500".freeze
 
+  default_scope { where(upload_status: "completed") }
+
   has_many :movie_genres, dependent: :destroy
   has_many :genres, through: :movie_genres
   has_many :likes, dependent: :destroy

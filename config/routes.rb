@@ -23,4 +23,7 @@ Rails.application.routes.draw do
   end
 
   resources :videos, only: [:new, :create]
+
+  post "movies/initiate-upload", to: "movies#initiate_upload"
+  post "movies/complete-upload", to: "movies#complete_upload"
 end
