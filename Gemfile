@@ -85,3 +85,5 @@ gem "neighbor"
 
 
 gem "tailwindcss-rails", "~> 4.4"
+
+gem 'aws-sdk-s3', '~> 1.112'

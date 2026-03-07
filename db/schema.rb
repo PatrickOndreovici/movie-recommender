@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_05_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_07_140951) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -50,6 +50,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_05_000000) do
     t.string "poster_path"
     t.string "title"
     t.datetime "updated_at", null: false
+    t.string "upload_id"
+    t.string "upload_status", default: "pending", null: false
     t.integer "year"
   end
 
