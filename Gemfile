@@ -66,7 +66,7 @@ group :test do
 end
 
 
-gem 'ollama-ai', '~> 1.2.1'
+gem 'ollama-ai', '~> 1.3.0'
 
 gem 'pg'
 
